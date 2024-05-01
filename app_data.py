@@ -3,7 +3,7 @@ import json
 import pandas as pd
 
 years = ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
-months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+months = ['jan']
 
 def call_url(year, month):
     base_url = 'https://api.census.gov/data/'
