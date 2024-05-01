@@ -24,7 +24,6 @@ def get_data_from_census(years, months):
     for year in years:
         for month in months:
             url = call_url(year, month)
-            print(year+'-'+month)
             data = get_data(url)
             yearcol = 'Year'
             monthcol = 'Month'
@@ -34,6 +33,7 @@ def get_data_from_census(years, months):
                 row.append(year)  # Add year to each row
                 row.append(month)  # Add month to each row
             all_data.extend(data)
+            print(year+'-'+month)
     return all_data
 
 data = get_data_from_census(years, months)
@@ -42,4 +42,4 @@ rows = data[1:]
 
 df = pd.DataFrame(rows, columns=columns)
 
-df.to_csv('2010_2023data.csv', index=False)
+df.to_csv('census_data.csv', index=False)

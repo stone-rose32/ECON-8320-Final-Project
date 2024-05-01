@@ -2,6 +2,11 @@ import streamlit as st
 
 def show():
     st.title("About")
-    st.write_stream("Learn more about our app and its purpose here.")
+    st.write_stream("Learn more about our app, the author, and its purpose here.")
 
-show()
+def main():
+    show()
+
+
+if __name__ == "__main__":
+    main()
