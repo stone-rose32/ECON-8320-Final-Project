@@ -2,9 +2,6 @@ import requests
 import json
 import pandas as pd
 
-years = ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
-months = ['jan']
-
 def call_url(year, month):
     base_url = 'https://api.census.gov/data/'
     year_month = f'{year}/cps/basic/{month}'
@@ -36,10 +33,18 @@ def get_data_from_census(years, months):
             print(year+'-'+month)
     return all_data
 
-data = get_data_from_census(years, months)
-columns = data[0]
-rows = data[1:]
+def main():
+    years = ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023']
+    months = ['jan']
+    data = get_data_from_census(years, months)
+    columns = data[0]
+    rows = data[1:]
+    
+    df = pd.DataFrame(rows, columns=columns)
+    
+    df.to_csv('census_data.csv', index=False)
 
-df = pd.DataFrame(rows, columns=columns)
 
-df.to_csv('census_data.csv', index=False)
+if __name__ == "__main__":
+    main()
+
