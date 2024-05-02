@@ -85,6 +85,12 @@ def data_refine_job(data_frame, variable_dict):
   data_frame.columns = new_column_headers
   return data_frame
 
+def update_data_job(new_years, new_months, variables, csv_file):
+  new_data = get_data_from_census(new_years, new_months, variables)
+  new_rdata = data_refine_job(new_data, var_dict)
+  updated_data = pd.concat([census_data, new_rdata], ignore_index=True)
+  updated_data.to_csv(csv_file, index=False)
+
 def main():
     years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
     months = ['jan']
@@ -92,12 +98,6 @@ def main():
     data, urls = get_data_from_census(years, months, variables)
 
     data.to_csv('census_data.csv', index=False)
-
-def update_data_job(new_years, new_months, variables, csv_file):
-  new_data = get_data_from_census(new_years, new_months, variables)
-  new_rdata = data_refine_job(new_data, var_dict)
-  updated_data = pd.concat([census_data, new_rdata], ignore_index=True)
-  updated_data.to_csv(csv_file, index=False)
 
 
 if __name__ == "__main__":
