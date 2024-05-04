@@ -1,5 +1,5 @@
 import streamlit as st
-from pages import project_details, about, data_and_visuals
+from pages import project_details, about, data_and_visuals, project_code
 
 def show():
     st.title("Introduction")
