@@ -3,7 +3,7 @@ from pages import project_details, about, data_and_visuals, project_code
 
 def show():
     st.title("Introduction")
-    st.write_stream("Welcome to my ECON 8320 Final Project!")
+    st.write("Welcome to my ECON 8320 Final Project!")
 
 def main():
     show()
