@@ -25,7 +25,8 @@ def show():
     Beyond just exercising what has been learned in both earlier in this course and in prior courses, I have definantly learned a few new tricks in the process of completing this project. 
     To start, I learned a whole new library in Streamlit. This library kind of rules. I makes making simple data dashboard pretty slick. I already have found myself thinking about future projects I could use this library for. 
 
-    I would probably say the second most impactful thing I gained from this project was further exploration of Github. I can see how this could be one of a programmers best friends.
+    I would probably say the second most impactful thing I gained from this project was further exploration of Github. I can see how this could be one of a programmers best friends. It servse as an easy way to store code that 
+    one can access from any device, Streamlit links directly to it.
     """
     st.write(learn_text)
 
