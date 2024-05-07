@@ -1,9 +1,8 @@
 import streamlit as st
-from pages import 1_about, 2_project_details, 3_data_and_visuals, 4_project_code
+from pages import about, project_details, data_and_visuals, project_code
 
 def show():
     st.title("Introduction")
-    st.write("Welcome to my ECON 8320 Final Project!")
 
 def main():
     show()
