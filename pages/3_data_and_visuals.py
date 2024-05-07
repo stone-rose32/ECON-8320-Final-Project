@@ -6,7 +6,7 @@ def show(data):
     
     tab1, tab2 = st.tabs(["Visualiztions", "Data Table"])
     with tab1:
-        st.line_chart(data, x = "Year", y = ["HEHOUSUT", "HETENURE", "HEFAMINC"])
+        st.line_chart(data, x = "Year", y = ["Household-type of living quarters", "Household-own/rent living quarters", "Household-total family income in past 12 months"])
     with tab2:    
         st.dataframe(data)
 
