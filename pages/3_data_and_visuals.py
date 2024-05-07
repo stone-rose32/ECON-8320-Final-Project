@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly as px
 
 def show(data):
     st.title("Data and Visuals")
