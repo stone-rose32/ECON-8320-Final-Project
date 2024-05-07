@@ -22,7 +22,10 @@ def show(data):
         elif selected_variable == 'Month':
             fig = px.line(data.groupby(selected_variable).size().reset_index(), x=selected_variable, y=0, title='Trends Over Time')
     
-        st.plotly_chart(fig)
+        if fig:
+            st.plotly_chart(fig)
+        else:
+            st.write("No plot available for the selected variable.")
     with tab2:    
         st.dataframe(data)
 
