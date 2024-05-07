@@ -1,5 +1,5 @@
 import streamlit as st
-from pages import about, project_details, data_and_visuals, project_code
+
 #https://blog.streamlit.io/crafting-a-dashboard-app-in-python-using-streamlit/
 def show():
     st.title("Introduction")
