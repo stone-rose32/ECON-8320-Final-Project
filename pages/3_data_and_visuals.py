@@ -10,7 +10,7 @@ def show(data):
         st.title('CPS Data Analysis')
     
         selected_variable = st.selectbox('Select a variable', data.columns)
-        fig = None
+
         if selected_variable == 'Household-total family income in past 12 months':
             fig = px.histogram(data, x=selected_variable, title='Distribution of Household Total Family Income')
         elif selected_variable == 'Household-type of living quarters':
