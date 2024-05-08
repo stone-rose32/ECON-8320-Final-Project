@@ -19,6 +19,11 @@ jobs:
     
     - name: Print Python version
       run: python --version
+
+    - name: Print Python environment
+      run: |
+        python -m pip freeze
+        python -c "import sys; print(sys.executable)"
     
     - name: Install dependencies
       run: |
