@@ -31,7 +31,7 @@ def show(data):
         st.dataframe(data)
 
 def main():
-    census_data = pd.read_csv("https://raw.githubusercontent.com/stone-rose32/ECON-8320-Final-Project/main/census_data.csv")
+    census_data = pd.read_csv("https://github.com/stone-rose32/ECON-8320-Final-Project/releases/download/v1.0.0/census_data.csv")
     show(census_data)
 
 
