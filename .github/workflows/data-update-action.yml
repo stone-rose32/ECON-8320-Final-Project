@@ -2,34 +2,29 @@ name: Update Data
 
 on:
   schedule:
-    - cron: '35 3 8 5 *'
+    - cron: "0 0 1 5 *"
 
 jobs:
   update_data:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Install dependencies
-      run: |
-        python3 -m pip install --upgrade pip
-        python3 -m pip install -r requirements.txt
-        python3 -m pip install requests
-    
-    - name: Print Python version
-      run: python --version
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Print Python environment
-      run: |
-        python -m pip freeze
-        python -c "import sys; print(sys.executable)"
-    
-    - name: Run data update job
-      run: python data_update_job.py
+      - name: Install Poetry
+        run: |
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+          source $HOME/.poetry/env
+          poetry --version
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Run data update job
+        run: poetry run python data_update_job.py
