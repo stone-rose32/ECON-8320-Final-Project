@@ -11,7 +11,6 @@ except ImportError:
 import json
 import pandas as pd
 from tqdm import tqdm
-import requests
 
 class GetCensusData:
   def __init__(self):
