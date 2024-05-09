@@ -11,9 +11,9 @@ def get_update_year():
   return current_year
 
 def update_data_job(current_year, current_month, variables, csv_file):
-  new_data = gcd.get_data_from_census(current_year, current_month, variables)
-  var_dict = gcd.get_variable_dict(current_year, current_month)
-  new_rdata = gcd.data_refine_job(new_data, var_dict)
+  new_data = gcd.GetCensusData().get_data_from_census(current_year, current_month, variables)
+  var_dict = gcd.GetCensusData().get_variable_dict(current_year, current_month)
+  new_rdata = gcd.GetCensusData().data_refine_job(new_data, var_dict)
   current_data = pd.read_csv(csv_file)
   updated_data = pd.concat([current_data, new_rdata], ignore_index=True)
   updated_data.to_csv(csv_file, index=False)
