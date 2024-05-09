@@ -5,9 +5,9 @@ def main():
     months = ['jan']
     variables = ['CBSA', 'HEHOUSUT', 'HETENURE', 'HEFAMINC', 'PEEDUCA', 'PEMLR', 'PESEX', 'PEMARITL', 'PWCMPWGT', 'HRNUMHOU', 'PWFMWGT', 'PWLGWGT', 'PWORWGT', 'PWSSWGT']
 
-    var_dict = gcd.get_variable_dict(years, months)
-    census_data = gcd.get_data_from_census(years, months, variables)
-    census_rdata= gcd.data_refine_job(census_data, var_dict)
+    var_dict = gcd.GetCensusData().get_variable_dict(years, months)
+    census_data = gcd.GetCensusData().get_data_from_census(years, months, variables)
+    census_rdata= gcd.GetCensusData().data_refine_job(census_data, var_dict)
 
     census_rdata.to_csv('census_data.csv', index=False)
 
