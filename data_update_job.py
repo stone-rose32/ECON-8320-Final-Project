@@ -1,4 +1,3 @@
-import requests
 import GetCensusData as gcd
 import pandas as pd
 import datetime
@@ -19,13 +18,14 @@ def update_data_job(current_year, current_month, variables, csv_file):
   updated_data.to_csv(csv_file, index=False)
 
 def main():
-    current_year = get_update_year()
-    current_month = 'jan'
-    variables = ['CBSA', 'HEHOUSUT', 'HETENURE', 'HEFAMINC', 'PEEDUCA', 'PEMLR', 'PESEX', 'PEMARITL', 'PWCMPWGT', 'HRNUMHOU', 'PWFMWGT', 'PWLGWGT', 'PWORWGT', 'PWSSWGT']
-    csv_file = 'census_data.csv'
+  current_year = get_update_year()
+  current_month = ['jan']
+  variables = ['CBSA', 'HEHOUSUT', 'HETENURE', 'HEFAMINC', 'PEEDUCA', 'PEMLR', 'PESEX', 'PEMARITL', 'PWCMPWGT', 'HRNUMHOU', 'PWFMWGT', 'PWLGWGT', 'PWORWGT', 'PWSSWGT']
+  csv_file = 'census_data.csv'
     
-    update_data_job(current_year, current_month, variables, csv_file)
+  update_data_job(current_year, current_month, variables, csv_file)
 
 
 if __name__ == "__main__":
     main()
+  
