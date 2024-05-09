@@ -1,16 +1,7 @@
-try:
-    import requests
-except ImportError:
-    import subprocess
-    import sys
-
-    # Install requests if not already installed
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "requests"])
-    import requests
-
 import json
 import pandas as pd
 from tqdm import tqdm
+import requests
 
 class GetCensusData:
   def __init__(self):
