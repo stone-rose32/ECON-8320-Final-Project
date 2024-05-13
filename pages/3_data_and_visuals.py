@@ -16,9 +16,18 @@ def load_data(filename):
     data = pd.concat(chunks, axis=0)
     return data
 
+def remove_text_rows(data, columns):
+    # Filter out rows where the specified columns contain non-numeric values
+    for col in columns:
+        data = data[pd.to_numeric(data[col], errors='coerce').notnull()]
+    return data
+
 def convert_columns_to_int(data):
     # List of columns to convert to integers
     columns_to_convert = [col for col in data.columns if 'weight' in col.lower() or 'year' in col.lower() or 'household total #' in col.lower()]
+    
+    # Remove rows with text in the specified columns
+    data = remove_text_rows(data, columns_to_convert)
     
     # Convert selected columns to integers
     for col in columns_to_convert:
@@ -85,39 +94,4 @@ def show():
 
         elif selected_variable == 'Demographics-highest level of school completed':
             edu_counts = filtered_data.groupby(['Year', 'Demographics-highest level of school completed', 'Household-own/rent living quarters'])['Weight-second stage weight (rake 6 final step weight)'].sum().reset_index()
-            fig = px.bar(edu_counts, x='Year', y='Weight-second stage weight (rake 6 final step weight)', color='Demographics-highest level of school completed', title='Weighted Count of Highest Level of School Completed')
-
-        elif selected_variable == 'Labor Force-employment status':
-            labor_counts = filtered_data.groupby(['Labor Force-employment status', 'Household-own/rent living quarters'])['Weight-composited final weight'].sum().reset_index()
-            fig = px.bar(labor_counts, x='Labor Force-employment status', y='Weight-composited final weight', color='Household-own/rent living quarters', title='Weighted Count of Employment Status by Home Ownership')
-
-        elif selected_variable == 'Demographics-sex':
-            sex_counts = filtered_data.groupby(['Demographics-sex', 'Household-own/rent living quarters'])['Weight-second stage weight (rake 6 final step weight)'].sum().reset_index()
-            fig = px.bar(sex_counts, x='Demographics-sex', y='Weight-second stage weight (rake 6 final step weight)', color='Household-own/rent living quarters', title='Weighted Count of Males and Females by Home Ownership')
-
-        elif selected_variable == 'Demographics-marital status':
-            sex_counts = filtered_data.groupby(['Demographics-marital status', 'Household-own/rent living quarters'])['Weight-second stage weight (rake 6 final step weight)'].sum().reset_index()
-            fig = px.bar(sex_counts, x='Demographics-marital status', y='Weight-second stage weight (rake 6 final step weight)', color='Household-own/rent living quarters', title='Weighted Count of Marital Status by Home Ownership')
-
-        elif selected_variable == 'Household-total # of members':
-            fig = px.box(filtered_data, x='Household-own/rent living quarters', y=selected_variable, title='Distribution of Household Total Number of Members- Unweighted')
-
-        elif selected_variable == 'Year' or selected_variable == 'Month':
-            st.write('This variable is not suitable for visualization. Please select another variable.')
-    
-        # If a figure was created, show it
-        if fig:
-            st.plotly_chart(fig)
-        else:
-            st.write("")
-    # Show the data table
-    with tab2:    
-        st.dataframe(filtered_data)
-
-# Create a main function to run the data and visuals page
-def main():
-    show()
-
-# Run the main function
-if __name__ == "__main__":
-    main()
+            fig = px.bar(edu_counts, x='Year', y='Weight-second stage weight (rake 6 final step weight)', color='Demographics-highest level of school completed', title='Weighted Count of Highes
