@@ -51,7 +51,7 @@ def main():
         st.header('Data and Visual Page Code')
         st.code(data_code, language='python')
     with tab6:
-        app_data_url = 'https://raw.githubusercontent.com/stone-rose32/ECON-8320-Final-Project/main/pages/project_code.py'
+        app_data_url = 'https://raw.githubusercontent.com/stone-rose32/ECON-8320-Final-Project/main/pages/4_project_code.py'
         data_code = get_data(app_data_url)
         st.header('Project Code Page Code')
         st.code(data_code, language='python')
