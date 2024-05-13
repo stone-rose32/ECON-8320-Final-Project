@@ -1,0 +1,60 @@
+name: Update Data and Release CSV
+
+on: 
+  
+  schedule:
+    - cron: '0 3 1 4 *'
+
+jobs:
+  update_data_and_release_csv:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2    
+
+    - name: Remove existing release CSV if exists
+      run: |
+        rm -f test_request.csv
+
+    - name: Download release CSV
+      run: |
+        curl -LJO https://github.com/stone-rose32/Project-Data-Test/releases/download/v1.0.0/test_request.csv
+
+    - name: Add release CSV to Git
+      run: |
+        git add test_request.csv
+        git status
+
+    - name: Check status before committing
+      run: |
+        git status
+
+    - name: Concatenate census_data.csv and release CSV
+      run: |
+        cat census_data.csv test_request.csv > combined_data.csv
+
+    - name: Check status after concatenation
+      run: |
+        git status
+
+    - name: Commit Changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "Concatenate census_data.csv with release CSV"
+        git push
+
+    - name: Get release upload URL
+      id: release_upload
+      run: echo "::set-output name=upload_url::$(jq -r '.repository.releases[0].upload_url' <<< ${{ toJson(github) }})"
+
+    - name: Upload updated CSV to release assets
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.release_upload.outputs.upload_url }}
+        asset_path: ./combined_data.csv
+        asset_name: combined_data.csv
+        asset_content_type: text/csv
+        token: ${{ secrets.GITHUB_TOKEN }}
