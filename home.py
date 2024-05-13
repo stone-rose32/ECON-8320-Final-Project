@@ -20,19 +20,18 @@ def load_data(filename):
 def show(data):
     st.title("Exploration of Who Owns Home/Living Quarters in the US")
     st.write("The purpose of this dashboard is to allow users to explore the data from the Current Population Survey (CPS) to understand who owns home/living quarters in the US. The data is from the US Census Bureau and is publicly available.")
-    st.write("Below are some visualizations that show the distribution of of Home Ownership in the US by various demographics.")
+    st.write("Below are some visualizations that show the distribution of Home Ownership in the US by various demographics.")
     filtered_columns = data.filter(regex='^(?!.*Weight).*$', axis=1)
+    
     # Create a sidebar to allow users to filter the data
     with st.sidebar:
         cities = ['Select All'] + data['Metropolitan Core Based Statistical Area FIPS Code'].unique().tolist()
         select_loc = st.selectbox('Select a location:', cities)
-     #   year_range = st.slider('Select a year range:', data['Year'].min(), data['Year'].max(), (2010, 2024))
 
-    # Filter the data based on the selected location and year range
+    # Filter the data based on the selected location
     filtered_data = data.copy()
     if select_loc != 'Select All':
         filtered_data = filtered_data[filtered_data['Metropolitan Core Based Statistical Area FIPS Code'] == select_loc]
-    #filtered_data = filtered_data[(filtered_data['Year'] >= year_range[0]) & (filtered_data['Year'] <= year_range[1])]
 
     # Show the filtered data in various charts
     # Create a bar chart to show the distribution of home ownership by gender
@@ -53,16 +52,21 @@ def show(data):
     fig.update_layout(title="Employment Status Distribution by Ownership Status")
     st.plotly_chart(fig)
     
-    # create a histogram to show the distribution of family size by home ownership
+    # Create a histogram to show the distribution of family size by home ownership
     fig = px.histogram(filtered_data, x='Household-total # of members', color='Household-own/rent living quarters')
     fig.update_layout(title="Distribution of Family Size by Home Ownership")
+    st.plotly_chart(fig)
+
+    # Create a line chart to show the change in homeownership over the years
+    ownership_year_counts = filtered_data.groupby(['Year', 'Household-own/rent living quarters']).size().reset_index(name='Count')
+    fig = px.line(ownership_year_counts, x='Year', y='Count', color='Household-own/rent living quarters', labels={'Count': 'Count', 'Year': 'Year'})
+    fig.update_layout(title="Change in Homeownership Over the Years")
     st.plotly_chart(fig)
 
 # Create a main function to run the dashboard
 def main():
     sample_data = load_data("https://github.com/stone-rose32/ECON-8320-Final-Project/releases/download/v1.0.0/census_data.csv")
     show(sample_data)
-
 
 # Run the main function
 if __name__ == "__main__":
