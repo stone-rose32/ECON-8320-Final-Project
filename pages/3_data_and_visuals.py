@@ -9,7 +9,7 @@ def load_data(filename):
     chunk_size = 50_000
     chunks = []
     # Read the data in chunks
-    for chunk in pd.read_csv(filename, chunksize=chunk_size):
+    for chunk in pd.read_csv(filename, chunksize=chunk_size, low_memory=False):
         chunks.append(chunk)
     
     # Concatenate the chunks into a single dataframe
@@ -100,12 +100,9 @@ def show():
             fig = px.bar(sex_counts, x='Demographics-marital status', y='Weight-second stage weight (rake 6 final step weight)', color='Household-own/rent living quarters', title='Weighted Count of Marital Status by Home Ownership')
 
         elif selected_variable == 'Household-total # of members':
-            fig = px.box(filtered_data,x='Household-own/rent living quarters', y=selected_variable, title='Distribution of Household Total Number of Members- Unweighted')
+            fig = px.box(filtered_data, x='Household-own/rent living quarters', y=selected_variable, title='Distribution of Household Total Number of Members- Unweighted')
 
-        elif selected_variable == 'Year':
-            st.write('This variable is not suitable for visualization. Please select another variable.')
-
-        elif selected_variable == 'Month':
+        elif selected_variable == 'Year' or selected_variable == 'Month':
             st.write('This variable is not suitable for visualization. Please select another variable.')
     
         # If a figure was created, show it
@@ -120,7 +117,6 @@ def show():
 # Create a main function to run the data and visuals page
 def main():
     show()
-
 
 # Run the main function
 if __name__ == "__main__":
