@@ -4,6 +4,7 @@ import pandas as pd
 from tqdm import tqdm
 import datetime
 
+# The top functions duplicate the GetCensusData class. Duplication was due to GitHub action complications
 def call_url(year, month, variables):
   if year < 2024:
     if 'CBSA' in variables:
@@ -88,7 +89,7 @@ def data_refine_job(data_frame, variable_dict):
   data_frame.columns = new_column_headers
   return data_frame
 
-
+# Get Current Year
 def get_update_year():
   current_year = []
   today = datetime.date.today().year
@@ -96,6 +97,7 @@ def get_update_year():
 
   return current_year
 
+# Get Current Year CPS Data
 def update_data_job(current_year, current_month, variables, csv_file):
   new_data = get_data_from_census(current_year, current_month, variables)
   var_dict = get_variable_dict(current_year, current_month)
@@ -112,5 +114,6 @@ def main():
     update_data_job(current_year, current_month, variables, csv_file)
 
 
+# Run main function
 if __name__ == "__main__":
     main()
