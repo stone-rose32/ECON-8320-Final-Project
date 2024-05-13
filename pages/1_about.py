@@ -1,7 +1,9 @@
 import streamlit as st
 
+# Create a function to show the about page
 def show():
     st.title("About...")
+    # Create a section for the author
     st.header("the Author")
     author_text = """
     My name is Austin Rose, and I am currently a graduate student at the University of Nebraska- Omaha (UNO) majoring in Data Science. Prior to attending UNO, I graduated from the University of Nebraska- Lincoln with a degree in Actuarial Sciences through the College of Business.
@@ -10,27 +12,18 @@ def show():
     """
     st.write(author_text)
 
+    # Create a section for the project
     st.header("the Project")
     project_text = """
-    The application you are looking at serves as the final project for my Tool for Data Analysis course (ECON 8320). The goal of this project is to utilize and demonstrate my knowledge of Python tools that were taught throughout the past semester. Further description for the project details can be found on the "Project Details"(https://econ-8320-final-project-austin-rose.streamlit.app/project_details) page.
+    The application you are looking at serves as the final project for my Tool for Data Analysis course (ECON 8320). The goal of this project is to utilize and demonstrate my knowledge of Python tools that were taught throughout the past semester. Further description for the project details can be found on the GitHub repository (https://github.com/stone-rose32/ECON-8320-Final-Project).
     """
     st.write(project_text)
 
-    st.header("What was Learned")
-    learn_text = """
-    Beyond just exercising what has been learned in both earlier in this course and in prior courses, I have definantly learned a few new tricks in the process of completing this project. To start, I learned a whole new library in Streamlit. This library kind of rules. I makes making simple data dashboard pretty slick. I already have found myself thinking about future projects I could use this library for. 
-
-    I would probably say the second most impactful thing I gained from this project was further exploration of Github. Although I had a Github account prior to taking this class, I never used the account. Github seems like it could become my best friend in relation to the programming aspect of my career/life. It serves as a great storage place for code that allows easy access and simple storage structure. I can link VS Code to it as well as directly linking my Streamlit app to the repository. I feel dumb for not having used it sooner.
-
-    Last largest takeaway from this project is simply understanding better project design. I spent a lot of time going back add changing features as I learned more about what 
-    
-    """
-    st.write(learn_text)
-
-
+# Create a main function to run the about page
 def main():
     show()
 
 
+# Run the main function
 if __name__ == "__main__":
     main()
