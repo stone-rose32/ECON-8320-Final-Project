@@ -2,37 +2,44 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+# Create a function to load the data into streamlit. @st.cache_data is used to cache the data so that it is not reloaded every time the page is refreshed.
 @st.cache_data
 def load_data(filename):
+    # Load the data in chunks to avoid memory issues
     chunk_size = 50_000
     chunks = []
-    for chunk in pd.read_csv(filename, chunksize=chunk_size, low_memory=False):
+    # Read the data in chunks
+    for chunk in pd.read_csv(filename, chunksize=chunk_size):
         chunks.append(chunk)
+    
+    # Concatenate the chunks into a single dataframe
     data = pd.concat(chunks, axis=0)
     return data
 
-def remove_non_numeric_rows(data, columns):
-    for col in columns:
-        data = data[pd.to_numeric(data[col], errors='coerce').notnull()]
-    return data
-
 def convert_columns_to_int(data):
-    columns_to_convert = [col for col in data.columns if 'weight' in col.lower() or 'year' in col.lower() or 'household-total #' in col.lower()]
-    data = remove_non_numeric_rows(data, columns_to_convert)
+    # List of columns to convert to integers
+    columns_to_convert = [col for col in data.columns if 'weight' in col.lower() or 'year' in col.lower()]
+    
+    # Convert selected columns to integers
     for col in columns_to_convert:
-        data[col] = pd.to_numeric(data[col], errors='coerce').fillna(0).astype(int)
+        data[col] = pd.to_numeric(data[col], errors='coerce')
+        data[col] = data[col].fillna(0).astype(int)
     return data
 
 def show():
     st.title("Data and Visuals")
 
+    # Load the data
     data = load_data("https://github.com/stone-rose32/ECON-8320-Final-Project/releases/download/v1.0.0/census_data.csv")
     data = convert_columns_to_int(data)
     
+    # Create tabs for the different sections of the data and visuals
     tab1, tab2 = st.tabs(["Visualizations", "Data Table"])
     with tab1:
         st.write('CPS Data Analysis')
+        # Create a sidebar to allow users to filter the data. Removed Weight fields from dropbox
         filtered_columns = data.filter(regex='^(?!.*Weight).*$', axis=1)
+        # Create a sidebar to allow users to filter the data
         with st.sidebar:
             cities = ['Select All'] + data['Metropolitan Core Based Statistical Area FIPS Code'].unique().tolist()
             select_loc = st.selectbox('Select a location:', cities)
@@ -43,11 +50,13 @@ def show():
             var_values = ['Select All'] + data[selected_variable].unique().tolist()
             selected_var_value = st.selectbox('Filter by variable values:', var_values)
         
+        # Filter the data based on the selected location and year range
         if select_loc == 'Select All':
             filtered_data = data[(data['Year'].between(year_range[0], year_range[1]))]
         else:
             filtered_data = data[(data['Year'].between(year_range[0], year_range[1])) & (data['Metropolitan Core Based Statistical Area FIPS Code'] == select_loc)]
         
+        # Filter the data based on the selected own/rent and variable values
         if own_rent_selected != 'Select All':
             filtered_data = filtered_data[filtered_data['Household-own/rent living quarters'] == own_rent_selected]
         
@@ -56,6 +65,7 @@ def show():
         
         fig = None
 
+        # Show the filtered data in various charts
         if selected_variable == 'Metropolitan Core Based Statistical Area FIPS Code':        
             own_living_quarters = filtered_data[filtered_data['Household-own/rent living quarters'] == 'Owned Or Being Bought By A Hh Member']
             own_quarters_by_area = own_living_quarters.groupby('Metropolitan Core Based Statistical Area FIPS Code')['Weight-composited final weight'].sum().reset_index()
@@ -89,21 +99,26 @@ def show():
             sex_counts = filtered_data.groupby(['Demographics-marital status', 'Household-own/rent living quarters'])['Weight-second stage weight (rake 6 final step weight)'].sum().reset_index()
             fig = px.bar(sex_counts, x='Demographics-marital status', y='Weight-second stage weight (rake 6 final step weight)', color='Household-own/rent living quarters', title='Weighted Count of Marital Status by Home Ownership')
 
-        elif selected_variable == 'Household-total # of members':
-            fig = px.box(filtered_data, x='Household-own/rent living quarters', y=selected_variable, title='Distribution of Household Total Number of Members- Unweighted')
+        elif selected_variable == 'Year':
+            st.write('This variable is not suitable for visualization. Please select another variable.')
 
-        elif selected_variable == 'Year' or selected_variable == 'Month':
+        elif selected_variable == 'Month':
             st.write('This variable is not suitable for visualization. Please select another variable.')
     
+        # If a figure was created, show it
         if fig:
             st.plotly_chart(fig)
         else:
             st.write("")
+    # Show the data table
     with tab2:    
         st.dataframe(filtered_data)
 
+# Create a main function to run the data and visuals page
 def main():
     show()
 
+
+# Run the main function
 if __name__ == "__main__":
     main()
